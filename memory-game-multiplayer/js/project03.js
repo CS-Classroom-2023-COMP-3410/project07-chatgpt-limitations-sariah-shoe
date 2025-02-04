@@ -7,7 +7,13 @@ const gridRowsInput = document.getElementById("gridRows");
 const gridColsInput = document.getElementById("gridCols");
 const welcomeContainer = document.querySelector(".welcome-container");
 const gameContainer = document.querySelector(".game-container");
+const player = document.getElementById("playerTurn");
+const playerOneScoreDisplay = document.getElementById("playerOneScore");
+const playerTwoScoreDisplay = document.getElementById("playerTwoScore");
 
+let playerOneScore = 0;
+let playerTwoScore = 0;
+let turn = 1;
 let cards = [];
 let flippedCards = [];
 let moves = 0;
@@ -55,6 +61,9 @@ function initializeGame() {
   createGrid();
   resetGameInfo();
   startTimer(); // ✅ Fix: Ensure the timer starts when the game begins
+  player.innerHTML = "Player " + turn + "'s Turn!";
+  playerOneScoreDisplay.innerHTML = playerOneScore;
+  playerTwoScoreDisplay.innerHTML = playerTwoScore;
 }
 
 function shuffleArray(array) {
@@ -94,7 +103,7 @@ function handleCardClick(e) {
   ) {
     return;
   }
-
+  player.innerHTML = "Player " + turn + "'s Turn!";
   flippedCards.push(clickedCard);
   clickedCard.classList.add("flipped");
 
@@ -102,7 +111,7 @@ function handleCardClick(e) {
     moves++;
     moveCounter.textContent = moves;
     checkForMatch();
-  }
+
 }
 
 function checkForMatch() {
@@ -113,6 +122,16 @@ function checkForMatch() {
     card1.classList.add("matched");
     card2.classList.add("matched");
     flippedCards = [];
+    if (turn == 1){
+      playerOneScore += 1;
+      playerOneScoreDisplay.innerHTML = playerOneScore;
+      turn += 1;
+    } else {
+      playerTwoScore += 1;
+      playerTwoScoreDisplay.innerHTML = playerTwoScore;
+      turn = 1;
+    }
+    player.innerHTML = "Player " + turn + "'s Turn!";
     
     // Check if all cards are matched
     if (document.querySelectorAll(".card.matched").length === cards.length) {
@@ -124,8 +143,15 @@ function checkForMatch() {
       card1.classList.remove("flipped");
       card2.classList.remove("flipped");
       flippedCards = [];
+      if (turn == 1){
+        turn += 1;
+      } else {
+        turn = 1;
+      }
+      player.innerHTML = "Player " + turn + "'s Turn!";
     }, 1000);
   }
+}
 }
 
 function startTimer() {
@@ -142,7 +168,10 @@ function formatTime(seconds) {
 }
 
 function resetGameInfo() {
+  turn = 1;
   moves = 0;
+  playerOneScore = 0;
+  playerTwoScore = 0;
   moveCounter.textContent = moves;
   clearInterval(timerInterval); // ✅ Fix: Clear timer on game reset
   timer.textContent = "00:00";
