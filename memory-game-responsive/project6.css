@@ -69,7 +69,6 @@
 
 /* 🍉 Fruit Border Container */
 .fruit-border {
-    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
@@ -92,7 +91,6 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: min(90vw, 600px); /* Responsive width */
     background: #fff;
     border: 5px solid #333;
     border-radius: 10px;
@@ -103,10 +101,12 @@
 
 /* 🃏 Game Grid */
 .grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  width: 100%;  /* Ensure it fits within the game container */
+  max-width: 500px; /* Set a reasonable max width */
+  margin: auto;
 }
 
 /* 🔘 Buttons */
@@ -211,7 +211,8 @@ h1 {
 
 .card {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1;  /* Maintain a square shape */
+  max-width: 100px; /* Prevent oversized cards */
   position: relative;
   perspective: 1000px;
   cursor: pointer;
